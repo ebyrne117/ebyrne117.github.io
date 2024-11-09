@@ -1,0 +1,70 @@
+body {
+    font-family: 'Merriweather', serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #333;
+}
+
+.policy-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px 40px;
+}
+
+.company-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.company-header h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.policy-content h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.8em;
+    margin: 30px 0 20px;
+}
+
+.policy-content h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.4em;
+    margin: 25px 0 15px;
+}
+
+.policy-content p {
+    margin-bottom: 15px;
+}
+
+.policy-content ul {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.policy-content li {
+    margin-bottom: 8px;
+}
+
+/* Add to your existing policy-styles.css */
+.policy-content h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    margin: 20px 0 15px;
+}
+
+.policy-content a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.policy-content a:hover {
+    text-decoration: underline;
+}
+
+.policy-content section {
+    margin-bottom: 40px;
+}
