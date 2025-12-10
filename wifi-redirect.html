@@ -2,71 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Test Page</title>
+<title>Loading…</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Break out of captive browser using meta refresh -->
+<meta http-equiv="refresh" content="0; url=https://tt.tell-me.ai">
+<script>
+// Backup redirect if meta refresh is blocked
+setTimeout(() => {
+  window.location.replace("https://tt.tell-me.ai");
+}, 50);
+</script>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 40px;
-    background: #f7f7f7;
-  }
-  .message {
-    background: #fff;
-    padding: 30px;
-    max-width: 400px;
-    margin: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  }
-  button {
-    background: #0077cc;
-    color: #fff;
-    border: none;
-    padding: 15px 25px;
-    font-size: 18px;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding-top: 40px;
+}
 </style>
 </head>
 <body>
-<div class="message">
-  <h2>Connected!</h2>
-  <p>Tap the button below to continue:</p>
-  <button onclick="openInBrowser()">Continue</button>
-</div>
-
-<script>
-// Function for the button to open in main browser
-function openInBrowser() {
-  try {
-    // Always try to open in new window/tab - this should open in system browser
-    window.open(window.location.href, '_blank');
-  } catch (e) {
-    // Fallback: try to break out of iframe
-    try {
-      if (window.top !== window.self) {
-        window.top.location = window.location.href;
-      }
-    } catch (e2) {
-      alert('Please copy this URL and open it in your browser: ' + window.location.href);
-    }
-  }
-}
-
-// Auto-click the button immediately when page loads (for Android)
-// This tries to open in browser before Android closes the portal
-window.addEventListener('load', function() {
-  setTimeout(function() {
-    try {
-      document.querySelector('button').click();
-    } catch (e) {}
-  }, 100);
-});
-</script>
-
+  <p>Loading…</p>
 </body>
 </html>
 
