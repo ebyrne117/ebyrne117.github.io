@@ -74,7 +74,7 @@
 
 <div class="card">
 
-<h2>Welcome to Birmingham Museums Wi-Fi</h2>
+<h2>Welcome to Birmingham Museums Wi-Fi 2</h2>
 
 <p>Tap below to get connected.</p>
 
@@ -87,6 +87,11 @@
  
 
 <script>
+
+// Break out of captive portal iframe if loaded in one
+if (window.top !== window.self) {
+  window.top.location = window.self.location;
+}
 
 // Read Meraki query parameters from the URL
 
@@ -110,7 +115,9 @@ function connect() {
 
     // Redirect to Meraki cloud to authenticate
 
-    window.location.href = grant + "?continue_url=" + encodeURIComponent(cont);
+    // Use window.top to break out of captive portal iframe
+
+    window.top.location.href = grant + "?continue_url=" + encodeURIComponent(cont);
 
   } else {
 
