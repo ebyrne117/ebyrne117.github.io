@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Birmingham Museums Wi-Fi</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+  body {
+
+    font-family: Arial, sans-serif;
+
+    text-align: center;
+
+    padding: 40px;
+
+    background: #f7f7f7;
+
+  }
+
+  .card {
+
+    background: #fff;
+
+    padding: 30px;
+
+    max-width: 400px;
+
+    margin: auto;
+
+    border-radius: 10px;
+
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+
+  }
+
+  button {
+
+    background: #0077cc;
+
+    color: #fff;
+
+    border: none;
+
+    padding: 15px 25px;
+
+    font-size: 18px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+  }
+
+  p {
+
+    color: #444;
+
+  }
+
+</style>
+
+</head>
+
+<body>
+
+ 
+
+<div class="card">
+
+<h2>Welcome to Birmingham Museums Wi-Fi</h2>
+
+<p>Tap below to get connected.</p>
+
+ 
+
+  <button onclick="connect()">Connect</button>
+
+</div>
+
+ 
+
+<script>
+
+// Read Meraki query parameters from the URL
+
+function getParam(name) {
+
+  return new URLSearchParams(window.location.search).get(name);
+
+}
+
+ 
+
+function connect() {
+
+  const grant = getParam("base_grant_url");
+
+  const cont  = "https://tt.tell-me.ai";
+
+ 
+
+  if (grant) {
+
+    // Redirect to Meraki cloud to authenticate
+
+    window.location.href = grant + "?continue_url=" + encodeURIComponent(cont);
+
+  } else {
+
+    alert("Missing Meraki base_grant_url parameter");
+
+  }
+
+}
+
+</script>
+
+ 
+
+</body>
+
+</html>
+
