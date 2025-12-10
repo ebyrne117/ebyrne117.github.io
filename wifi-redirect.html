@@ -80,28 +80,36 @@ window.addEventListener('load', function() {
 <a id="breakout-link" href="" target="_top" style="display:none;"></a>
 
 <script>
-// Try clicking a link with target="_top" as another method
+// Try clicking a link with target="_top" as another method - ONLY if in iframe
 setTimeout(function() {
   try {
-    var link = document.getElementById('breakout-link');
-    link.href = window.location.href;
-    link.click();
+    if (window.top !== window.self) {
+      var link = document.getElementById('breakout-link');
+      link.href = window.location.href;
+      link.click();
+    }
   } catch (e) {}
 }, 50);
 
 // Function for the button to open in main browser
 function openInBrowser() {
   try {
-    // Try to open in new window/tab
-    window.open(window.location.href, '_blank');
-  } catch (e) {
-    try {
-      // Fallback: try target _top
-      window.top.location = window.location.href;
-    } catch (e2) {
-      // Last resort: copy URL to clipboard or show it
-      alert('Please copy this URL and open it in your browser: ' + window.location.href);
+    // Check if we're in an iframe
+    if (window.top !== window.self) {
+      // If in iframe, try to break out
+      try {
+        window.top.location = window.location.href;
+      } catch (e) {
+        // If blocked, try opening in new window
+        window.open(window.location.href, '_blank');
+      }
+    } else {
+      // If not in iframe, just open in new tab
+      window.open(window.location.href, '_blank');
     }
+  } catch (e) {
+    // Last resort: show URL
+    alert('Please copy this URL and open it in your browser: ' + window.location.href);
   }
 }
 </script>
