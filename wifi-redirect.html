@@ -4,43 +4,6 @@
 <meta charset="UTF-8">
 <title>Test Page</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>
-// Aggressive break-out script - runs immediately before anything else
-(function() {
-  try {
-    if (window.top !== window.self) {
-      window.top.location = window.self.location;
-    }
-  } catch (e) {
-    // If blocked, try alternative methods
-    try {
-      window.top.location.href = window.self.location.href;
-    } catch (e2) {
-      try {
-        window.top.location.replace(window.self.location.href);
-      } catch (e3) {
-        // Last resort: try multiple times with delay
-        setTimeout(function() {
-          try {
-            window.top.location = window.self.location;
-          } catch (e4) {
-            window.open(window.self.location.href, '_top');
-          }
-        }, 100);
-      }
-    }
-  }
-})();
-
-// Also try on window load as backup
-window.addEventListener('load', function() {
-  try {
-    if (window.top !== window.self) {
-      window.top.location = window.self.location;
-    }
-  } catch (e) {}
-});
-</script>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -70,48 +33,38 @@ window.addEventListener('load', function() {
 </head>
 <body>
 <div class="message">
-  <h2>Test Page</h2>
-  <p>If you can see this in your main browser, the break-out script worked! 2</p>
-  <p>If you're still in the captive portal, click the button below:</p>
-  <button onclick="openInBrowser()">Open in Main Browser</button>
+  <h2>Connected!</h2>
+  <p>Tap the button below to continue:</p>
+  <button onclick="openInBrowser()">Continue</button>
 </div>
 
-<!-- Hidden link that auto-clicks to break out -->
-<a id="breakout-link" href="" target="_top" style="display:none;"></a>
-
 <script>
-// Try clicking a link with target="_top" as another method - ONLY if in iframe
-setTimeout(function() {
-  try {
-    if (window.top !== window.self) {
-      var link = document.getElementById('breakout-link');
-      link.href = window.location.href;
-      link.click();
-    }
-  } catch (e) {}
-}, 50);
-
 // Function for the button to open in main browser
 function openInBrowser() {
   try {
-    // Check if we're in an iframe
-    if (window.top !== window.self) {
-      // If in iframe, try to break out
-      try {
-        window.top.location = window.location.href;
-      } catch (e) {
-        // If blocked, try opening in new window
-        window.open(window.location.href, '_blank');
-      }
-    } else {
-      // If not in iframe, just open in new tab
-      window.open(window.location.href, '_blank');
-    }
+    // Always try to open in new window/tab - this should open in system browser
+    window.open(window.location.href, '_blank');
   } catch (e) {
-    // Last resort: show URL
-    alert('Please copy this URL and open it in your browser: ' + window.location.href);
+    // Fallback: try to break out of iframe
+    try {
+      if (window.top !== window.self) {
+        window.top.location = window.location.href;
+      }
+    } catch (e2) {
+      alert('Please copy this URL and open it in your browser: ' + window.location.href);
+    }
   }
 }
+
+// Auto-click the button immediately when page loads (for Android)
+// This tries to open in browser before Android closes the portal
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    try {
+      document.querySelector('button').click();
+    } catch (e) {}
+  }, 100);
+});
 </script>
 
 </body>
