@@ -2,8 +2,45 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Redirecting...</title>
+<title>Test Page</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+// Aggressive break-out script - runs immediately before anything else
+(function() {
+  try {
+    if (window.top !== window.self) {
+      window.top.location = window.self.location;
+    }
+  } catch (e) {
+    // If blocked, try alternative methods
+    try {
+      window.top.location.href = window.self.location.href;
+    } catch (e2) {
+      try {
+        window.top.location.replace(window.self.location.href);
+      } catch (e3) {
+        // Last resort: try multiple times with delay
+        setTimeout(function() {
+          try {
+            window.top.location = window.self.location;
+          } catch (e4) {
+            window.open(window.self.location.href, '_top');
+          }
+        }, 100);
+      }
+    }
+  }
+})();
+
+// Also try on window load as backup
+window.addEventListener('load', function() {
+  try {
+    if (window.top !== window.self) {
+      window.top.location = window.self.location;
+    }
+  } catch (e) {}
+});
+</script>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -19,22 +56,54 @@
     border-radius: 10px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   }
+  button {
+    background: #0077cc;
+    color: #fff;
+    border: none;
+    padding: 15px 25px;
+    font-size: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
 </style>
 </head>
 <body>
 <div class="message">
-  <h2>Connecting...</h2>
-  <p>Redirecting to Tellme...</p>
+  <h2>Test Page</h2>
+  <p>If you can see this in your main browser, the break-out script worked! 2</p>
+  <p>If you're still in the captive portal, click the button below:</p>
+  <button onclick="openInBrowser()">Open in Main Browser</button>
 </div>
 
-<script>
-// Break out of captive portal iframe if loaded in one
-if (window.top !== window.self) {
-  window.top.location = window.self.location;
-}
+<!-- Hidden link that auto-clicks to break out -->
+<a id="breakout-link" href="" target="_top" style="display:none;"></a>
 
-// Redirect to the actual destination
-window.top.location.href = "https://tt.tell-me.ai";
+<script>
+// Try clicking a link with target="_top" as another method
+setTimeout(function() {
+  try {
+    var link = document.getElementById('breakout-link');
+    link.href = window.location.href;
+    link.click();
+  } catch (e) {}
+}, 50);
+
+// Function for the button to open in main browser
+function openInBrowser() {
+  try {
+    // Try to open in new window/tab
+    window.open(window.location.href, '_blank');
+  } catch (e) {
+    try {
+      // Fallback: try target _top
+      window.top.location = window.location.href;
+    } catch (e2) {
+      // Last resort: copy URL to clipboard or show it
+      alert('Please copy this URL and open it in your browser: ' + window.location.href);
+    }
+  }
+}
 </script>
 
 </body>
