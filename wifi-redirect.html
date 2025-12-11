@@ -5,6 +5,60 @@
 <title>Loading…</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Break out of captive browser using meta refresh -->
+<!-- Try HTTP first to escape captive portal mini-browser, then fall back -->
+<meta http-equiv="refresh" content="0; url=http://tt.tell-me.ai">
+<script>
+const targets = [
+  "http://tt.tell-me.ai",   // HTTP may force system browser
+  "https://tt.tell-me.ai"   // fallback to HTTPS
+];
+
+let idx = 0;
+function hop() {
+  if (idx >= targets.length) return;
+  window.location.replace(targets[idx++]);
+  // Stagger attempts so slow CNA browsers still move on
+  setTimeout(hop, 600);
+}
+
+// Backup redirect if meta refresh is blocked
+setTimeout(hop, 30);
+
+// Manual rescue button handler
+function openNow() {
+  hop(); // advance to current target
+  // Also try to open via user gesture to encourage native browser
+  try { window.open(targets[0], "_blank"); } catch (e) {}
+}
+</script>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding-top: 40px;
+}
+button {
+  margin-top: 16px;
+  padding: 12px 18px;
+  font-size: 16px;
+}
+</style>
+</head>
+<body>
+  <p>Loading…</p>
+  <p>If nothing happens, tap below to open in your browser.</p>
+  <button onclick="openNow()">Open in browser</button>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Loading…</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Break out of captive browser using meta refresh -->
 <meta http-equiv="refresh" content="0; url=https://tt.tell-me.ai">
 <script>
 // Backup redirect if meta refresh is blocked
@@ -23,5 +77,5 @@ body {
 <body>
   <p>Loading…</p>
 </body>
-</html>
+</html> -->
 
