@@ -223,7 +223,7 @@ function connect() {
 
 <div class="card">
 
-<h2>Welcome to Birmingham Museums Wi-Fi 3</h2>
+<h2>Welcome to Birmingham Museums Wi-Fi 4</h2>
 
 <p>Tap below to get connected.</p>
 
@@ -258,40 +258,14 @@ function connect() {
 
   const cont  = "http://httpforever.com/";
 
-  if (!grant) {
-    alert("Missing Meraki base_grant_url parameter");
-    return;
-  }
-
-  // Meraki accepts user_continue_url which can help some clients launch the
-  // full browser after auth completes.
-  const continueParam = encodeURIComponent(cont);
-  const dest = `${grant}?continue_url=${continueParam}&user_continue_url=${continueParam}`;
-
-  // Strategy: Force main browser to open using multiple techniques
-  // The key is that user_continue_url tells Meraki to launch the main browser
-  // and window.open with user gesture can also trigger main browser
-  
-  // CRITICAL: window.open() MUST be called synchronously with user click
-  // This is the most reliable way to trigger main browser on iOS/Android
-  // The user gesture (button click) is essential for this to work
-  try {
+  if (grant) {
+    // Try to open in main browser
     window.open(cont, "_blank");
-  } catch (e) {
-    // Pop-up may be blocked, but the attempt can still help trigger main browser
-    // The user_continue_url parameter below is the backup mechanism
-  }
-
-  // Redirect to Meraki for authentication
-  // The user_continue_url parameter is KEY - it tells Meraki to launch
-  // the main browser when redirecting after authentication
-  // Use window.top to break out of captive portal iframe
-  try {
-    // Use replace to avoid back button issues
-    window.top.location.replace(dest);
-  } catch (e) {
-    // Fallback to href if replace fails
-    window.top.location.href = dest;
+    
+    // Redirect to Meraki cloud to authenticate
+    window.top.location.href = grant + "?continue_url=" + encodeURIComponent(cont);
+  } else {
+    alert("Missing Meraki base_grant_url parameter");
   }
 
 }
