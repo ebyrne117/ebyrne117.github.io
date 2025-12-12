@@ -110,7 +110,7 @@ function connect() {
 
   // Try HTTP first to help break out of the captive portal browser; the next
   // page will bounce to HTTPS almost immediately.
-  const cont  = "http://httpforever.com/";
+  const cont  = "https://tt.tell-me.ai/";
 
   if (!grant) {
     alert("Missing Meraki base_grant_url parameter");
@@ -223,7 +223,7 @@ function connect() {
 
 <div class="card">
 
-<h2>Welcome to Birmingham Museums Wi-Fi 4</h2>
+<h2>Welcome to Birmingham Museums Wi-Fi 5</h2>
 
 <p>Tap below to get connected.</p>
 
@@ -256,7 +256,7 @@ function connect() {
 
   const grant = getParam("base_grant_url");
 
-  const cont  = "http://httpforever.com/";
+  const cont  = "https://tt.tell-me.ai";
 
   if (grant) {
     // Try to open in main browser
